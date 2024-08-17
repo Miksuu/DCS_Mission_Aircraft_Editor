@@ -3,11 +3,16 @@ import csv
 import json
 import os
 from collections import defaultdict
+import sys
+
+csv = sys.argv[1]
+mission = sys.argv[2]
+output = sys.argv[3]
 
 # Read the CSV file and parse the data
 data = defaultdict(lambda: defaultdict(lambda: defaultdict(lambda: defaultdict(list))))
 
-with open("mission_data.csv", mode='r', newline='', encoding='utf-8') as file:
+with open(csv, mode='r', newline='', encoding='utf-8') as file:
     reader = csv.DictReader(file)
 
     for row in reader:
@@ -39,7 +44,7 @@ with open("mission_data.csv", mode='r', newline='', encoding='utf-8') as file:
         })
 
 # Load the existing Lua data
-lua_data = luadata.read(r"mission", encoding="utf-8")
+lua_data = luadata.read(mission, encoding="utf-8")
 
 # Print Lua Data for Debugging
 print("Loaded Lua Data:")
@@ -75,16 +80,11 @@ for coalition, coalition_data in data.items():
 print("Updated Lua Data:")
 print(json.dumps(lua_data, indent=4))
 
-# Create the output directory if it doesn't exist
-output_dir = "output"
-if not os.path.exists(output_dir):
-    os.makedirs(output_dir)
+# Write the updated Lua data back to the Lua file
 
-# Write the updated Lua data back to the output folder
-output_file_path = os.path.join(output_dir, "mission")
-with open(output_file_path, mode='w', encoding='utf-8') as file:
+with open(output, mode='w', encoding='utf-8') as file:
     file.write("mission = ")
     # Try saving as JSON for debugging
     json.dump(lua_data, file, indent=4, ensure_ascii=False)
 
-print(f"Data has been successfully updated in {output_file_path}")
+print(f"Data has been successfully updated in {output}")
