@@ -75,8 +75,13 @@ for coalition, coalition_data in data.items():
 print("Updated Lua Data:")
 print(json.dumps(lua_data, indent=4))
 
+# Create the output directory if it doesn't exist
+output_dir = "output"
+if not os.path.exists(output_dir):
+    os.makedirs(output_dir)
+
 # Write the updated Lua data back to the output folder
-output_file_path = os.path.join("output", "mission")
+output_file_path = os.path.join(output_dir, "mission")
 with open(output_file_path, mode='w', encoding='utf-8') as file:
     file.write("mission = ")
     # Try saving as JSON for debugging
