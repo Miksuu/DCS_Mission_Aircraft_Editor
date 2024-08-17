@@ -1,6 +1,7 @@
 import luadata
 import csv
 import json
+import os
 from collections import defaultdict
 
 # Read the CSV file and parse the data
@@ -74,8 +75,8 @@ for coalition, coalition_data in data.items():
 print("Updated Lua Data:")
 print(json.dumps(lua_data, indent=4))
 
-# Write the updated Lua data back on to the updated_mission file
-output_file_path = "updated_mission"
+# Write the updated Lua data back to the output folder
+output_file_path = os.path.join("output", "mission")
 with open(output_file_path, mode='w', encoding='utf-8') as file:
     file.write("mission = ")
     # Try saving as JSON for debugging
